@@ -1,95 +1,79 @@
-/**
- * =====================================================
- * MAIN CLASS - UseCase2RoomInitialization
- * =====================================================
- *
- * Use Case 2: Basic Room Types & Static Availability
- *
- * Description:
- * This class demonstrates room initialization
- * using domain models before introducing
- * centralized inventory management.
- *
- * Availability is represented using
- * simple variables to highlight limitations.
- *
- * @version 2.1
- */
+import java.util.HashMap;
+import java.util.Map;
 
-// ABSTRACT CLASS
-abstract class Room {
+/*
+====================================================
+CLASS : RoomInventory
+Use Case 3 : Centralized Room Inventory Management
+====================================================
+*/
 
-    // Number of beds available in the room
-    protected int numberOfBeds;
+class RoomInventory {
 
-    // Total size of the room in square feet
-    protected int squareFeet;
+    // Store available rooms for each room type
+    private Map<String, Integer> roomAvailability;
 
-    // Price charged per night
-    protected double pricePerNight;
-
-    // Constructor used by child classes
-    public Room(int numberOfBeds, int squareFeet, double pricePerNight) {
-        this.numberOfBeds = numberOfBeds;
-        this.squareFeet = squareFeet;
-        this.pricePerNight = pricePerNight;
+    // Constructor initializes the inventory
+    public RoomInventory() {
+        roomAvailability = new HashMap<>();
+        initializeInventory();
     }
 
-    // Display room details
-    public void displayRoomDetails() {
-        System.out.println("Number of Beds: " + numberOfBeds);
-        System.out.println("Room Size: " + squareFeet + " sq ft");
-        System.out.println("Price Per Night: ₹" + pricePerNight);
+    // Initialize room availability
+    private void initializeInventory() {
+        roomAvailability.put("Single", 5);
+        roomAvailability.put("Double", 3);
+        roomAvailability.put("Suite", 2);
+    }
+
+    // Return room availability
+    public Map<String, Integer> getRoomAvailability() {
+        return roomAvailability;
+    }
+
+    // Update availability
+    public void updateAvailability(String roomType, int count) {
+        roomAvailability.put(roomType, count);
     }
 }
 
-// SINGLE ROOM CLASS
-class SingleRoom extends Room {
+/*
+====================================================
+MAIN CLASS : UseCase3InventorySetup
+====================================================
+*/
 
-    public SingleRoom() {
-        super(1, 255, 1580.5);
-    }
-}
-
-// DOUBLE ROOM CLASS
-class DoubleRoom extends Room {
-
-    public DoubleRoom() {
-        super(2, 400, 2500.0);
-    }
-}
-
-// SUITE ROOM CLASS
-class SuiteRoom extends Room {
-
-    public SuiteRoom() {
-        super(3, 750, 5000.0);
-    }
-}
-
-// MAIN CLASS
 public class Bookmystayapp {
 
-    /**
-     * Application entry point
-     */
     public static void main(String[] args) {
 
-        Room single = new SingleRoom();
-        Room doubleRoom = new DoubleRoom();
-        Room suite = new SuiteRoom();
+        RoomInventory inventory = new RoomInventory();
 
-        System.out.println("Single Room Details:");
-        single.displayRoomDetails();
+        System.out.println("Hotel Room Inventory Status\n");
+
+        System.out.println("Single Room:");
+        System.out.println("Beds: 1");
+        System.out.println("Size: 250 sqft");
+        System.out.println("Price per night: 1500.0");
+        System.out.println("Available Rooms: " +
+                inventory.getRoomAvailability().get("Single"));
 
         System.out.println();
 
-        System.out.println("Double Room Details:");
-        doubleRoom.displayRoomDetails();
+        System.out.println("Double Room:");
+        System.out.println("Beds: 2");
+        System.out.println("Size: 400 sqft");
+        System.out.println("Price per night: 2500.0");
+        System.out.println("Available Rooms: " +
+                inventory.getRoomAvailability().get("Double"));
 
         System.out.println();
 
-        System.out.println("Suite Room Details:");
-        suite.displayRoomDetails();
+        System.out.println("Suite Room:");
+        System.out.println("Beds: 3");
+        System.out.println("Size: 750 sqft");
+        System.out.println("Price per night: 5000.0");
+        System.out.println("Available Rooms: " +
+                inventory.getRoomAvailability().get("Suite"));
     }
 }
